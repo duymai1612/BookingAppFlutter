@@ -6,9 +6,9 @@ class DummyData {
 
   /// Generate static time slots for every day between 9:00 and 17:00 every 30 minutes.
   static List<TimeOfDay> timeSlots() {
-    return List.generate(
-        16,
-        (index) =>
-            TimeOfDay(hour: 9 + index ~/ 2, minute: index.isEven ? 0 : 30));
+    return List.generate(32, (i) {
+      final totalMinutes = 9 * 60 + i * 15; // start 9:00
+      return TimeOfDay(hour: totalMinutes ~/ 60, minute: totalMinutes % 60);
+    });
   }
 }
