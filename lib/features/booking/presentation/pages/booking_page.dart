@@ -7,6 +7,7 @@ import '../sections/time_slots_section.dart';
 import '../widgets/confirmation_bar.dart';
 import 'package:booking_app_flutter/core/theme/app_colors.dart';
 import '../widgets/participants_bar.dart';
+import '../widgets/steps_header.dart';
 
 /// Root page hosting the three-column booking layout.
 /// Currently contains placeholder widgets – slots, date picker and duration list
@@ -21,6 +22,7 @@ class BookingPage extends StatelessWidget {
         child: Column(
           children: [
             const ParticipantsBar(),
+            const StepsHeader(),
             Expanded(
               child: Stack(
                 children: [
