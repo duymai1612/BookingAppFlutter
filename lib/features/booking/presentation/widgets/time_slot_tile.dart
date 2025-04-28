@@ -20,11 +20,14 @@ class TimeSlotTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Replace with ListTile themed per design.
+    final theme = Theme.of(context);
     return ListTile(
       title: Text(timeOfDay.format(context)),
       selected: selected,
+      selectedColor: theme.colorScheme.primary,
+      selectedTileColor: theme.colorScheme.primary.withOpacity(.15),
       onTap: onTap,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );
   }
 }

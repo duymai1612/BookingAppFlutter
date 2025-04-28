@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../application/booking_controller.dart';
+import '../sections/duration_section.dart';
+import '../sections/date_picker_section.dart';
+import '../sections/time_slots_section.dart';
+import '../widgets/confirmation_bar.dart';
 
 /// Root page hosting the three-column booking layout.
 /// Currently contains placeholder widgets – slots, date picker and duration list
@@ -10,35 +16,46 @@ class BookingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            // TODO(duration column)
-            Expanded(
-              child: Container(
-                color: Colors.blue.shade50,
-                alignment: Alignment.topCenter,
-                child: const Text('Duration Column Placeholder'),
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Expanded(child: DurationSection()),
+                VerticalDivider(width: 1),
+                Expanded(child: DatePickerSection()),
+                VerticalDivider(width: 1),
+                Expanded(child: TimeSlotsSection()),
+              ],
             ),
-            // TODO(date picker column)
-            Expanded(
-              child: Container(
-                color: Colors.green.shade50,
-                alignment: Alignment.topCenter,
-                child: const Text('Date Picker Column Placeholder'),
-              ),
-            ),
-            // TODO(time slots column)
-            Expanded(
-              child: Container(
-                color: Colors.orange.shade50,
-                alignment: Alignment.topCenter,
-                child: const Text('Time Slots Column Placeholder'),
-              ),
-            ),
+            const Positioned.fill(child: _ConfirmationOverlay()),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Private overlay widget to consume BookingController and render ConfirmationBar.
+class _ConfirmationOverlay extends StatelessWidget {
+  const _ConfirmationOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = context.watch<BookingController>();
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ConfirmationBar(
+        visible: controller.canConfirm,
+        durationMinutes: controller.selectedDuration,
+        date: controller.selectedDate,
+        time: controller.selectedSlot ?? const TimeOfDay(hour: 0, minute: 0),
+        onConfirm: () {
+          // TODO: implement confirm action (show snackbar for now)
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Booking confirmed (stub)')));
+        },
+        onCancel: controller.cancelSelection,
       ),
     );
   }

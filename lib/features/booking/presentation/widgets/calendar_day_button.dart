@@ -20,12 +20,26 @@ class CalendarDayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement style per design and add hover effect.
+    final theme = Theme.of(context);
+    final bgColor =
+        selected ? theme.colorScheme.primary.withOpacity(.15) : null;
+
     return InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: Text('${date.day}'),
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          '${date.day}',
+          style: TextStyle(
+            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+            color: selected ? theme.colorScheme.primary : null,
+          ),
+        ),
       ),
     );
   }

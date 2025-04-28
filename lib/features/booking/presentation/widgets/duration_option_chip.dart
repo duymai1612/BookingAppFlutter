@@ -25,15 +25,14 @@ class DurationOptionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Replace Container with ChoiceChip implementation.
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(20),
-        color: selected ? Colors.greenAccent : Colors.transparent,
+    return ChoiceChip(
+      label: Text('$minutes min'),
+      selected: selected,
+      onSelected: (_) => onTap(),
+      selectedColor: Theme.of(context).colorScheme.primary.withOpacity(.15),
+      labelStyle: TextStyle(
+        color: selected ? Theme.of(context).colorScheme.primary : null,
       ),
-      child: Text('$minutes min'),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'features/booking/presentation/pages/booking_page.dart';
+import 'package:provider/provider.dart';
+import 'features/booking/application/booking_controller.dart';
 
 void main() {
   runApp(const BookingApp());
@@ -11,11 +13,14 @@ class BookingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Booking App',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      home: const BookingPage(),
+    return ChangeNotifierProvider(
+      create: (_) => BookingController(),
+      child: MaterialApp(
+        title: 'Booking App',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        home: const BookingPage(),
+      ),
     );
   }
 }

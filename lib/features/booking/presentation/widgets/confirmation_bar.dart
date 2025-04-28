@@ -28,14 +28,38 @@ class ConfirmationBar extends StatelessWidget {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: visible
-          ? Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: const [Text('ConfirmationBar Placeholder')],
+          ? Material(
+              elevation: 6,
+              color: Theme.of(context).canvasColor,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '$durationMinutes min • ${_formatDate(context, date)} • ${time.format(context)}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: onCancel, child: const Text('Cancel')),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                            onPressed: onConfirm, child: const Text('Confirm')),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             )
           : const SizedBox.shrink(),
     );
+  }
+
+  String _formatDate(BuildContext context, DateTime date) {
+    final l10n = MaterialLocalizations.of(context);
+    return l10n.formatMediumDate(date);
   }
 }

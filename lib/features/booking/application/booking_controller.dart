@@ -43,4 +43,22 @@ class BookingController extends ChangeNotifier {
   static bool isSameDate(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
+
+  /// Add [months] (can be negative) to currently selected month while respecting
+  /// constraint: no earlier than current month and no more than 3 months ahead.
+  void shiftMonth(int months) {
+    final firstOfCurrent = DateTime(DateTime.now().year, DateTime.now().month);
+    final firstAllowed = firstOfCurrent;
+    final lastAllowed = DateTime(firstOfCurrent.year, firstOfCurrent.month + 3);
+
+    final candidate =
+        DateTime(_selectedDate.year, _selectedDate.month + months);
+
+    if (candidate.isBefore(firstAllowed) || candidate.isAfter(lastAllowed))
+      return;
+
+    _selectedDate = DateTime(candidate.year, candidate.month, 1);
+    _selectedSlot = null; // Reset slot when month changes.
+    notifyListeners();
+  }
 }
