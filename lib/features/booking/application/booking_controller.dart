@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/event_repository.dart';
+import 'dart:math';
+import '../domain/dummy_data.dart';
 
 /// Holds the booking flow state as per project rules.
 class BookingController extends ChangeNotifier {
@@ -11,6 +13,10 @@ class BookingController extends ChangeNotifier {
   final List<String> _participants = ['Angelo', 'Kate'];
   final EventRepository _repo = EventRepository();
   final Set<String> _disabledSlots = {}; // stores formatted time strings
+  final Set<String> _unavailable =
+      {}; // random unavailable time strings for selected date
+
+  final _rng = Random();
 
   int get selectedDuration => _selectedDuration;
   DateTime get selectedDate => _selectedDate;
@@ -19,8 +25,27 @@ class BookingController extends ChangeNotifier {
   List<String> get participants => List.unmodifiable(_participants);
 
   bool get canConfirm => _selectedSlot != null;
-  bool slotDisabled(TimeOfDay slot) =>
-      _disabledSlots.contains(_formatTime(slot));
+  bool slotDisabled(TimeOfDay slot) {
+    final str = _formatTime(slot);
+    return _disabledSlots.contains(str) || _unavailable.contains(str);
+  }
+
+  List<TimeOfDay> get availableSlots =>
+      _unavailable.map((e) => _parseTime(e)).toList();
+
+  BookingController() {
+    _generateUnavailable();
+  }
+
+  void _generateUnavailable() {
+    _unavailable.clear();
+    final all = List<TimeOfDay>.from(DummyData.timeSlots())..shuffle(_rng);
+    // randomly mark 6 slots unavailable
+    final count = 6;
+    for (var i = 0; i < count; i++) {
+      _unavailable.add(_formatTime(all[i]));
+    }
+  }
 
   void selectDuration(int minutes) {
     if (minutes != _selectedDuration) {
@@ -34,6 +59,7 @@ class BookingController extends ChangeNotifier {
       _selectedDate = date;
       // Clear slot when date changes.
       _selectedSlot = null;
+      _generateUnavailable();
       notifyListeners();
     }
   }
@@ -92,7 +118,14 @@ class BookingController extends ChangeNotifier {
     final timeStr = _formatTime(_selectedSlot!);
     await _repo.createEvent(
         duration: durationStr, date: dateStr, time: timeStr);
-    _disabledSlots.add(timeStr);
+    final slotsToBlock = _selectedDuration ~/ 30; // number of 30-min slots
+    for (var i = 0; i < slotsToBlock; i++) {
+      final minutesFromMidnight =
+          _selectedSlot!.hour * 60 + _selectedSlot!.minute + i * 30;
+      final block = _formatTime(TimeOfDay(
+          hour: minutesFromMidnight ~/ 60, minute: minutesFromMidnight % 60));
+      _disabledSlots.add(block);
+    }
     _selectedSlot = null;
     notifyListeners();
   }
@@ -108,5 +141,15 @@ class BookingController extends ChangeNotifier {
     final minute = t.minute.toString().padLeft(2, '0');
     final suffix = t.period == DayPeriod.am ? 'AM' : 'PM';
     return '$hour:$minute $suffix';
+  }
+
+  TimeOfDay _parseTime(String timeStr) {
+    final parts = timeStr.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1].split(' ')[0]);
+    final isAm = parts[1].split(' ')[1] == 'AM';
+    final hour24 =
+        isAm ? (hour == 12 ? 0 : hour) : (hour == 12 ? 12 : hour + 12);
+    return TimeOfDay(hour: hour24, minute: minute);
   }
 }
