@@ -7,10 +7,13 @@ class BookingController extends ChangeNotifier {
   TimeOfDay? _selectedSlot;
   String _timeZone = DateTime.now().timeZoneName;
 
+  final List<String> _participants = ['Angelo', 'Kate'];
+
   int get selectedDuration => _selectedDuration;
   DateTime get selectedDate => _selectedDate;
   TimeOfDay? get selectedSlot => _selectedSlot;
   String get timeZone => _timeZone;
+  List<String> get participants => List.unmodifiable(_participants);
 
   bool get canConfirm => _selectedSlot != null;
 
@@ -47,6 +50,11 @@ class BookingController extends ChangeNotifier {
       _timeZone = tz;
       notifyListeners();
     }
+  }
+
+  void addParticipant(String name) {
+    _participants.add(name);
+    notifyListeners();
   }
 
   static bool isSameDate(DateTime a, DateTime b) {

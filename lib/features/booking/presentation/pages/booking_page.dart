@@ -6,6 +6,7 @@ import '../sections/date_picker_section.dart';
 import '../sections/time_slots_section.dart';
 import '../widgets/confirmation_bar.dart';
 import 'package:booking_app_flutter/core/theme/app_colors.dart';
+import '../widgets/participants_bar.dart';
 
 /// Root page hosting the three-column booking layout.
 /// Currently contains placeholder widgets – slots, date picker and duration list
@@ -17,22 +18,29 @@ class BookingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Expanded(child: DurationSection()),
-                VerticalDivider(width: 1, color: AppColors.border),
-                Expanded(child: DatePickerSection()),
-                VerticalDivider(width: 1, color: AppColors.border),
-                Expanded(child: TimeSlotsSection()),
-              ],
-            ),
-            const Positioned.fill(
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: _ConfirmationOverlay(),
+            const ParticipantsBar(),
+            Expanded(
+              child: Stack(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Expanded(child: DurationSection()),
+                      VerticalDivider(width: 1, color: AppColors.border),
+                      Expanded(child: DatePickerSection()),
+                      VerticalDivider(width: 1, color: AppColors.border),
+                      Expanded(child: TimeSlotsSection()),
+                    ],
+                  ),
+                  const Positioned.fill(
+                    child: Padding(
+                      padding: EdgeInsets.all(24),
+                      child: _ConfirmationOverlay(),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
