@@ -118,10 +118,10 @@ class BookingController extends ChangeNotifier {
     final timeStr = _formatTime(_selectedSlot!);
     await _repo.createEvent(
         duration: durationStr, date: dateStr, time: timeStr);
-    final slotsToBlock = _selectedDuration ~/ 30; // number of 30-min slots
+    final slotsToBlock = _selectedDuration ~/ 15; // number of 15-min slots
     for (var i = 0; i < slotsToBlock; i++) {
       final minutesFromMidnight =
-          _selectedSlot!.hour * 60 + _selectedSlot!.minute + i * 30;
+          _selectedSlot!.hour * 60 + _selectedSlot!.minute + i * 15;
       final block = _formatTime(TimeOfDay(
           hour: minutesFromMidnight ~/ 60, minute: minutesFromMidnight % 60));
       _disabledSlots.add(block);
