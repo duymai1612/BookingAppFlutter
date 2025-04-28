@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
 
 /// List tile representing an available time slot for a given day.
 ///
@@ -20,14 +21,43 @@ class TimeSlotTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return ListTile(
-      title: Text(timeOfDay.format(context)),
-      selected: selected,
-      selectedColor: theme.colorScheme.primary,
-      selectedTileColor: theme.colorScheme.primary.withOpacity(.15),
+    final label = timeOfDay.format(context);
+    final bgColor = selected ? AppColors.black : Colors.white;
+    final textColor = selected ? Colors.white : AppColors.black;
+
+    return InkWell(
       onTap: onTap,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: bgColor,
+          border: Border.all(color: AppColors.border),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(label, style: TextStyle(color: textColor)),
+            Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: selected ? AppColors.green : Colors.transparent,
+                border: Border.all(color: AppColors.bulletGrey, width: 1.5),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import '../sections/duration_section.dart';
 import '../sections/date_picker_section.dart';
 import '../sections/time_slots_section.dart';
 import '../widgets/confirmation_bar.dart';
+import 'package:booking_app_flutter/core/theme/app_colors.dart';
 
 /// Root page hosting the three-column booking layout.
 /// Currently contains placeholder widgets – slots, date picker and duration list
@@ -22,9 +23,9 @@ class BookingPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Expanded(child: DurationSection()),
-                VerticalDivider(width: 1),
+                VerticalDivider(width: 1, color: AppColors.border),
                 Expanded(child: DatePickerSection()),
-                VerticalDivider(width: 1),
+                VerticalDivider(width: 1, color: AppColors.border),
                 Expanded(child: TimeSlotsSection()),
               ],
             ),
