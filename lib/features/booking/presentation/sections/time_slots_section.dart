@@ -14,10 +14,15 @@ class TimeSlotsSection extends StatelessWidget {
     final controller = context.watch<BookingController>();
     final slots = DummyData.timeSlots();
 
-    return ListView.separated(
-      padding: const EdgeInsets.all(8),
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 3.5,
+      ),
       itemCount: slots.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 4),
       itemBuilder: (context, index) {
         final slot = slots[index];
         final isSelected = controller.selectedSlot == slot;
