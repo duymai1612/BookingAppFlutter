@@ -18,7 +18,6 @@ class DurationSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ParticipantsHeader(),
           const SizedBox(height: 24),
           Text('1. DURATION',
               style: Theme.of(context)
@@ -43,42 +42,6 @@ class DurationSection extends StatelessWidget {
           const Spacer(),
           _TimezoneFooter(),
         ],
-      ),
-    );
-  }
-}
-
-class _ParticipantsHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Dummy circular avatar placeholders
-        _AvatarPlaceholder(),
-        const SizedBox(width: 8),
-        _AvatarPlaceholder(),
-        const Spacer(),
-        TextButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.add, size: 16),
-          label: const Text('ADD MORE'),
-          style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 8)),
-        ),
-      ],
-    );
-  }
-}
-
-class _AvatarPlaceholder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: const BoxDecoration(
-        color: AppColors.bulletGrey,
-        shape: BoxShape.circle,
       ),
     );
   }
