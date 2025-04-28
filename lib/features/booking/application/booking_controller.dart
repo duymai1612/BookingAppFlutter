@@ -38,6 +38,8 @@ class BookingController extends ChangeNotifier {
   }
 
   void _generateUnavailable() {
+    // TODO: handle real unavailable slots from the database
+    // TODO: disable slots within duration of already booked events
     _unavailable.clear();
     final all = List<TimeOfDay>.from(DummyData.timeSlots())..shuffle(_rng);
     // randomly mark 6 slots unavailable
