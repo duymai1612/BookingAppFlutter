@@ -66,10 +66,10 @@ class _ConfirmationOverlay extends StatelessWidget {
         durationMinutes: controller.selectedDuration,
         date: controller.selectedDate,
         time: controller.selectedSlot ?? const TimeOfDay(hour: 0, minute: 0),
-        onConfirm: () {
-          // TODO: implement confirm action (show snackbar for now)
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Booking confirmed (stub)')));
+        onConfirm: () async {
+          await controller.confirmBooking();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Event created')));
         },
         onCancel: controller.cancelSelection,
       ),
