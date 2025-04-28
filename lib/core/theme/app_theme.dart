@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
 /// Centralised theme configuration for the Booking App.
 ///
@@ -8,12 +9,33 @@ class AppTheme {
 
   /// Base light theme following Material 3 guidelines.
   static ThemeData get light {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: _brandGreen),
-      useMaterial3: true,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
+    final base = ThemeData.light(useMaterial3: true);
+    return base.copyWith(
+      scaffoldBackgroundColor: AppColors.lightBackground,
+      colorScheme: base.colorScheme.copyWith(
+        primary: AppColors.green,
+        secondary: AppColors.green,
+      ),
+      dividerColor: AppColors.border,
+      textTheme: base.textTheme.apply(
+        bodyColor: AppColors.black,
+        displayColor: AppColors.black,
+      ),
       inputDecorationTheme:
           const InputDecorationTheme(border: OutlineInputBorder()),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.green,
+          foregroundColor: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.black,
+        ),
+      ),
     );
   }
 
