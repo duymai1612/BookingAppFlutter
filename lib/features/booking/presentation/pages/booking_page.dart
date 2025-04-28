@@ -29,7 +29,12 @@ class BookingPage extends StatelessWidget {
                 Expanded(child: TimeSlotsSection()),
               ],
             ),
-            const Positioned.fill(child: _ConfirmationOverlay()),
+            const Positioned.fill(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: _ConfirmationOverlay(),
+              ),
+            ),
           ],
         ),
       ),
@@ -45,7 +50,7 @@ class _ConfirmationOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<BookingController>();
     return Align(
-      alignment: Alignment.bottomCenter,
+      alignment: Alignment.bottomRight,
       child: ConfirmationBar(
         visible: controller.canConfirm,
         durationMinutes: controller.selectedDuration,

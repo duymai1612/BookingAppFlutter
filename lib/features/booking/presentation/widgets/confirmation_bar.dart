@@ -24,28 +24,40 @@ class ConfirmationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement design layout and animation.
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 250),
       child: visible
           ? Material(
-              elevation: 6,
-              color: Theme.of(context).canvasColor,
-              child: Padding(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 360),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('4. CONFIRM BOOKING',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 12),
                     Text(
-                      '$durationMinutes min • ${_formatDate(context, date)} • ${time.format(context)}',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      '$durationMinutes minute meeting on ${_formatDate(context, date)} at ${time.format(context)}',
                     ),
+                    const SizedBox(height: 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
                             onPressed: onCancel, child: const Text('Cancel')),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 12),
                         ElevatedButton(
                             onPressed: onConfirm, child: const Text('Confirm')),
                       ],
